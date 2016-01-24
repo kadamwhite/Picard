@@ -3,7 +3,9 @@ module.exports = function (gulp, $, handleErrors) {
 		browserify = require( 'browserify' ),
 		buffer = require( 'vinyl-buffer' ),
 		reactify = require( 'reactify' ),
-		bundler = browserify( './components/picard.jsx' ),
+		bundler = browserify( './components/picard.jsx', {
+      debug: true
+    }),
 		source = require( 'vinyl-source-stream' );
 		bundler.transform( reactify );
 
@@ -15,8 +17,8 @@ module.exports = function (gulp, $, handleErrors) {
 			// .on( 'error', $.util.log.bind( $.util, 'Browserify Error' ) )
 			.pipe( source( 'picard.js' ) )
 				// .pipe( buffer() )
-				// .pipe( $.sourcemaps.init( { loadMaps: true } ) )
-				// .pipe( $.sourcemaps.write( './' ) )
+			// .pipe( $.sourcemaps.init( { loadMaps: true } ) )
+			// .pipe( $.sourcemaps.write( './' ) )
 			.pipe( gulp.dest( './' ) );
 
 	}

@@ -3,7 +3,8 @@
  */
 var React = require( 'react' ),
 	page = require( 'page' ),
-	request = require( 'superagent' );
+	request = require( 'superagent' ),
+	wp = require( 'wordpress-rest-api' ).site( '/wp-json' );
 
 /**
  * Internal dependencies
@@ -13,30 +14,21 @@ var Content = require( '../content/content.jsx' );
 var Router = React.createClass({
 
 	componentDidMount: function() {
-		
+
 		var self = this;
 
 		page( '/', function ( ctx ) {
-			var data,
-				slug = ctx.params.slug,
-				url = "/wp-json/posts";
-			request
-				.get( url )
-				.end( function( err, res ) {
-					data = JSON.parse( res.text );
-					self.setState({ component: <Content data={ data } bodyClass="index" /> });
+			wp.posts().get()
+				.then(function( posts ) {
+					self.setState({ component: <Content data={ posts } bodyClass="index" /> });
 				});
 		});
 
 		page( '/:year/:month/:day/:slug', function ( ctx ) {
-			var data,
-				slug = ctx.params.slug,
-				url = "/wp-json/posts/?filter[name]=" + slug;
-			request
-				.get( url )
-				.end( function( err, res ) {
-					data = JSON.parse( res.text );
-					self.setState({ component: <Content data={ data } bodyClass="single" /> });
+			var slug = ctx.params.slug;
+			wp.posts().name( slug ).get()
+				.then(function( posts ) {
+					self.setState({ component: <Content data={ posts } bodyClass="single" /> });
 				});
 		});
 
@@ -56,7 +48,7 @@ var Router = React.createClass({
 					slug = slug.substr(0, slug.length - 1);
 				}
 				var part = slug.substring(slug.lastIndexOf('/') + 1);
-				var url = "/wp-json/posts/?type[]=page&filter[name]=" + part;
+				var url = "/wp-json/wp/v2/pages/?filter[name]=" + part;
 				request
 					.get( url )
 					.end( function( err, res ) {

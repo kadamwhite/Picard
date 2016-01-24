@@ -160,32 +160,32 @@ function picard_api_init() {
 }
 add_action( 'wp_json_server_before_serve', 'picard_api_init' );
 
-class Picard_API_Comments extends WP_JSON_Comments {
-	public function register_routes( $routes ) {
-		$routes['/picard/comments'] = array(
-			array( array( $this, 'new_post' ), WP_JSON_Server::CREATABLE ),
-		);
+// class Picard_API_Comments extends WP_REST_Comments {
+// 	public function register_routes( $routes ) {
+// 		$routes['/picard/comments'] = array(
+// 			array( array( $this, 'new_post' ), WP_JSON_Server::CREATABLE ),
+// 		);
 
-		return $routes;
-	}
+// 		return $routes;
+// 	}
 
-	public function new_post() {
+// 	public function new_post() {
 
-		$commentdata = array(
-			'comment_post_ID'      => $_POST['comment_post_ID'],
-			'comment_author'       => $_POST['comment_author'],
-			'comment_author_email' => $_POST['comment_author_email'],
-			'comment_author_url'   => $_POST['comment_author_url'],
-			'comment_content'      => $_POST['content'],
-			'comment_author_IP'    => $_SERVER['REMOTE_ADDR'],
-			'comment_type'         => '',
-		);
-		$comment_id = wp_new_comment( $commentdata );
+// 		$commentdata = array(
+// 			'comment_post_ID'      => $_POST['comment_post_ID'],
+// 			'comment_author'       => $_POST['comment_author'],
+// 			'comment_author_email' => $_POST['comment_author_email'],
+// 			'comment_author_url'   => $_POST['comment_author_url'],
+// 			'comment_content'      => $_POST['content'],
+// 			'comment_author_IP'    => $_SERVER['REMOTE_ADDR'],
+// 			'comment_type'         => '',
+// 		);
+// 		$comment_id = wp_new_comment( $commentdata );
 
-		$new_comment = get_comment( $comment_id );
+// 		$new_comment = get_comment( $comment_id );
 
-		$prepared_comment = $this->prepare_comment( $new_comment );
+// 		$prepared_comment = $this->prepare_comment( $new_comment );
 
-		return ( $comment_id ) ? $prepared_comment : array();
-	}
-}
+// 		return ( $comment_id ) ? $prepared_comment : array();
+// 	}
+// }

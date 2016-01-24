@@ -16,7 +16,7 @@ var CommentList = require( './comment-list/comment-list.jsx' ),
 var Comments = React.createClass({
 
 	loadCommentsFromServer: function() {
-		var repliesLink = '/wp-json/posts/' + this.props.postID + '/comments/';
+		var repliesLink = '/wp-json/wp/v2/posts/' + this.props.postID + '/comments/';
 
 		var self = this;
 
@@ -57,7 +57,7 @@ var Comments = React.createClass({
 	componentDidMount: function() {
 		this.loadCommentsFromServer();
 	},
-	
+
 	render: function() {
 		return (
 			<div id="comments" className="comments-area">
